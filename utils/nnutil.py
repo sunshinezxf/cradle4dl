@@ -10,5 +10,5 @@ def train_lenet():
     x_train = x_train.reshape(-1, 28, 28, 1)
     x_test = x_test.reshape(-1, 28, 28, 1)
     print(x_train[0] / 255)
-    lenet = LeNet(model_filename='lenet_mnist_1.h5', input_shape=(28, 28, 1), weight_decay=1e-3)
+    lenet = LeNet(model_filename='lenet_mnist_1.h5', epochs=10, input_shape=(28, 28, 1), weight_decay=1e-3)
     lenet.train(x_train / 255, y_train)

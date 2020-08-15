@@ -24,8 +24,10 @@ class Net(object):
             except (ValueError, IOError):
                 print("Fail to load trained model: ", name, " from ", file_path)
         else:
-            if os.path.exists(os.path.join(basedir, "models", self.name)):
-                os.remove(file_path)
+            if not os.path.exists(os.path.join(basedir, "models")):
+                os.mkdir(os.path.join(basedir, "models"))
+            if not os.path.exists(os.path.join(basedir, "models",  self.name)):
+                os.mkdir(os.path.join(basedir, "models", self.name))
 
     def summary(self):
         if self._model:
@@ -46,7 +48,7 @@ class Net(object):
         model = self.build_model()
         model.summary()
         model.fit(x_train, y_train, batch_size=self.batch_size, epochs=self.epochs, verbose=1, shuffle=True)
-        model.save(os.path.join(basedir, 'models', self.name, self.model_filename))
+        model.save(os.path.join(basedir, 'models', self.name, self.file_name))
         self._model = model
 
     def predict(self, input_list):
