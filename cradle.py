@@ -21,21 +21,26 @@ def detect(model_o, model_c, input_list):
 
 # 输入两个模型实例及验证数据，判断结果是否正确
 def _detect_single(model_o, model_c, ins_input):
-    print("ins_input shape: " + str(ins_input.shape))
     ins_input = ins_input.reshape(-1, 28, 28, 1)
-    print(model_o.layers[0].input_shape)
-    output_o = model_o.predict(ins_input)[0]
-    output_c = model_c.predict(ins_input)[0]
-    print("output_o: " + str(output_o))
-    print("output_c: " + str(output_c))
-    _output_compare(output_o, output_c)
+    try:
+        output_o = model_o.predict(ins_input)[0]
+        output_c = model_c.predict(ins_input)[0]
+        is_equal = _output_compare(output_o, output_c)
+        if is_equal is not True:
+            # 需要进行hidden state的分析
+            print("further analysis")
+    except RuntimeError:
+        print("input prediction trigger a bug which interrupt the prediction")
     return
 
 
 # 输出结果比对
 def _output_compare(o_1, o_2):
-    is_equal = nnutil.top_equal(1, o_1, o_2)
-    return
+    is_equal = nnutil.top_equal(o_1, o_2)
+    if is_equal is not True:
+        print("input_o: %s" % str(o_1))
+        print("input_c: %s" % str(o_2))
+    return is_equal
 
 
 # 定位问题发生的位置
@@ -51,16 +56,11 @@ def pre_process():
 if __name__ == "__main__":
     # 训练模型用
     # nnutil.train_lenet()
-
-    print(basedir)
     model_dir = basedir + "/network/models/lenet/"
-    model_path = [model_dir + "lenet_mnist_1.h5", model_dir + "lenet_mnist_1.h5"]
+    model_path = [model_dir + "lenet_mnist_1.h5", model_dir + "lenet_mnist_2.h5"]
     print("load model")
-    print(model_path[0])
     mo = load_model(model_path[0])
     mc = load_model(model_path[1])
     (x_train, y_train), (x_test, y_test) = mnist.load_data()
     x_test = x_test.reshape(-1, 28, 28, 1)
     detect(model_o=mo, model_c=mc, input_list=x_test)
-    # val = ""
-    # detect(mo, mc, val)
