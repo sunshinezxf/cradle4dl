@@ -26,6 +26,7 @@ def top_equal(o_1, o_2):
     return False
 
 
+# 当第k位有两个相同value的index时，可能出现问题
 def top_k(output, label, k):
     if k >= len(output):
         return True
@@ -38,6 +39,7 @@ def top_k(output, label, k):
     return False
 
 
+# i的改变并没有改变np.argmax(output)的值
 # 用于计算单个输出的类间距离
 def _class_distance(output, label, k):
     for i in range(1, k + 1):
