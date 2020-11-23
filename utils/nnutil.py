@@ -1,10 +1,13 @@
 # -*- coding: utf-8 -*-
 
 from tensorflow.keras.datasets import mnist
+from tensorflow.keras import backend
 
 from network.lenet import LeNet
 
 import numpy as np
+
+import json
 
 
 def train_lenet():
@@ -27,6 +30,7 @@ def top_equal(o_1, o_2):
 
 
 # 当第k位有两个相同value的index时，可能出现问题
+# 由于碰撞概率极小，此问题可忽略
 def top_k(output, label, k):
     if k >= len(output):
         return True
@@ -39,13 +43,15 @@ def top_k(output, label, k):
     return False
 
 
-# i的改变并没有改变np.argmax(output)的值
+# i的改变并没有改变np.argmax(output)的值，添加else后正常
 # 用于计算单个输出的类间距离
 def _class_distance(output, label, k):
     for i in range(1, k + 1):
         index = np.argmax(output)
         if index == label:
             return np.power(2, k - 1)
+        else:
+            output[index] = np.min(output)
     return 0
 
 
@@ -64,3 +70,31 @@ def mean_absolute_distance(o_1, o_2, oracle):
         return 0
     else:
         return np.abs(diff_1 - diff_2) / (diff_1 + diff_2)
+
+
+# 用于分离一个model的layers
+# 返回一个字典list，每个字典中存储一个layer的数据
+# 这里对type(layers_json['config'])进行了判断，因为对tf接触不够多，目前我遇到的都是非list情况 --章文
+def extract_model_layer(model):
+    layers_json = json.loads(model.to_json())
+    if type(layers_json['config']).__name__ != 'list':
+        return layers_json['config']['layers']
+    else:
+        return layers_json['config']
+
+
+# 计算model每一层的输出，并返回list
+# 目前存在问题：只能完成第一层的分层计算，从第二层开始出错
+def layers_output(model, first_layer_input):
+    for layer in model.layers:
+        print(layer.input)
+        print(layer.input_shape)
+
+    input_list = [first_layer_input]
+    for layer in model.layers:
+        target_func = backend.function(layer.input, layer.output)
+        print("layer input: ", input_list[-1].shape)
+        input_list.append(target_func(input_list[-1]))
+        print("layer output: ", input_list[-1].shape)
+    for single_input in input_list:
+        print(single_input.shape)
