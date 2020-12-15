@@ -20,7 +20,7 @@ class Net(object):
         file_path = os.path.join(basedir, "models", self.name)
         if not train:
             try:
-                self._model = load_model(os.path.join(basedir, "models", self.name))
+                self._model = load_model(os.path.join(basedir, "models", self.name, self.file_name))
             except (ValueError, IOError):
                 print("Fail to load trained model: ", name, " from ", file_path)
         else:
