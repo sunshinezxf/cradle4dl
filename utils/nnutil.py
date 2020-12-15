@@ -80,17 +80,12 @@ def extract_model_layer(model):
 
 
 # 计算model每一层的输出，并返回list
-# 目前存在问题：只能完成第一层的分层计算，从第二层开始出错
 def layers_output(model, first_layer_input):
+    output_list = []
     for layer in model.layers:
-        print(layer.input)
-        print(layer.input_shape)
+        target_func = backend.function(model.layers[0].input, layer.output)
+        print("layer input: ", first_layer_input.shape)
+        output_list.append(target_func(first_layer_input))
+        print("layer output: ", output_list[-1].shape)
 
-    input_list = [first_layer_input]
-    for layer in model.layers:
-        target_func = backend.function(layer.input, layer.output)
-        print("layer input: ", input_list[-1].shape)
-        input_list.append(target_func(input_list[-1]))
-        print("layer output: ", input_list[-1].shape)
-    for single_input in input_list:
-        print(single_input.shape)
+    return output_list
