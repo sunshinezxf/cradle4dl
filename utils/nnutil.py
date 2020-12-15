@@ -74,13 +74,9 @@ def mean_absolute_distance(o_1, o_2, oracle):
 
 # 用于分离一个model的layers
 # 返回一个字典list，每个字典中存储一个layer的数据
-# 这里对type(layers_json['config'])进行了判断，因为对tf接触不够多，目前我遇到的都是非list情况 --章文
 def extract_model_layer(model):
     layers_json = json.loads(model.to_json())
-    if type(layers_json['config']).__name__ != 'list':
-        return layers_json['config']['layers']
-    else:
-        return layers_json['config']
+    return layers_json['config']['layers']
 
 
 # 计算model每一层的输出，并返回list
