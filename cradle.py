@@ -57,10 +57,9 @@ if __name__ == "__main__":
     # 训练模型用
     # nnutil.train_lenet()
     model_dir = basedir + "/network/models/lenet/"
-    model_path = [model_dir + "lenet_mnist_1.h5", model_dir + "lenet_mnist_2.h5"]
+    model_path = model_dir + "lenet_mnist_1.h5"
     print("load model")
-    mo = load_model(model_path[0])
-    mc = load_model(model_path[1])
+    mo = load_model(model_path)
     (x_train, y_train), (x_test, y_test) = mnist.load_data()
     x_test = x_test.reshape(-1, 28, 28, 1)
-    detect(model_o=mo, model_c=mc, input_list=x_test)
+    print(nnutil.layers_output(mo, x_test))
