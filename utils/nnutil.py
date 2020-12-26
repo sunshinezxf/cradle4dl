@@ -49,7 +49,7 @@ def _class_distance(output, label, k):
     for i in range(1, k + 1):
         index = np.argmax(output)
         if index == label:
-            return np.power(2, k - 1)
+            return np.power(2, k - i)
         else:
             output[index] = np.min(output)
     return 0
@@ -60,6 +60,16 @@ def class_based_distance(o_1, o_2, oracle, k):
     diff_1 = _class_distance(o_1, oracle, k)
     diff_2 = _class_distance(o_2, oracle, k)
     return np.abs(diff_1 - diff_2)
+
+
+# MAD
+def mean_absolute_deviation(output, ground_truth):
+    output = np.asarray(output)
+    ground_truth = np.asarray(ground_truth)
+    distance_sum = 0;
+    for i in range(len(output)):
+        distance_sum += np.abs(output[i] - ground_truth[i])
+    return distance_sum / len(output)
 
 
 # 用于计算两个输出之间的平均绝对偏差(MAD)
@@ -84,8 +94,8 @@ def layers_output(model, first_layer_input):
     output_list = []
     for layer in model.layers:
         target_func = backend.function(model.layers[0].input, layer.output)
-        print("layer input: ", first_layer_input.shape)
+        # print("layer input: ", first_layer_input.shape)
         output_list.append(target_func(first_layer_input))
-        print("layer output: ", output_list[-1].shape)
+        # print("layer output: ", output_list[-1].shape)
 
     return output_list

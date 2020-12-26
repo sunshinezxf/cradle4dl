@@ -62,4 +62,6 @@ if __name__ == "__main__":
     mo = load_model(model_path)
     (x_train, y_train), (x_test, y_test) = mnist.load_data()
     x_test = x_test.reshape(-1, 28, 28, 1)
-    print(nnutil.layers_output(mo, x_test))
+    # layer_output_list = nnutil.layers_output(mo, x_test)
+    # print(layer_output_list)
+
