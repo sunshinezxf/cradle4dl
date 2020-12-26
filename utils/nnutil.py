@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import math
 
 from tensorflow.keras.datasets import mnist
 from tensorflow.keras import backend
@@ -63,19 +64,14 @@ def class_based_distance(o_1, o_2, oracle, k):
 
 
 # MAD
-def mean_absolute_deviation(output, ground_truth):
-    output = np.asarray(output)
-    ground_truth = np.asarray(ground_truth)
-    distance_sum = 0;
-    for i in range(len(output)):
-        distance_sum += np.abs(output[i] - ground_truth[i])
-    return distance_sum / len(output)
+def mean_absolute_deviation(y, o):
+    return np.mean(np.abs(y-o))
 
 
 # 用于计算两个输出之间的平均绝对偏差(MAD)
-def mean_absolute_distance(o_1, o_2, oracle):
-    diff_1 = np.abs(o_1 - oracle)
-    diff_2 = np.abs(o_2 - oracle)
+def mad_based_distance(o_1, o_2, oracle):
+    diff_1 = mean_absolute_deviation(o_1, oracle)
+    diff_2 = mean_absolute_deviation(o_2, oracle)
     if diff_1 == diff_2 and diff_1 == 0:
         return 0
     else:
@@ -99,3 +95,7 @@ def layers_output(model, first_layer_input):
         # print("layer output: ", output_list[-1].shape)
 
     return output_list
+
+
+def rate_of_change(current_distance, pre):
+    return (current_distance - pre) / (pre + math.pow(10, -7))
