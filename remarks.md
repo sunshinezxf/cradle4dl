@@ -2,7 +2,7 @@
 
 ## 一些系统参数
 
-以下时一些参数，应该在整个系统运行前确定，后续可以考虑封装到一个方法中
+以下是一些参数，应该在整个系统运行前确定，后续可以考虑封装到一个方法中
 - Classification/Regression：分类模型还是回归模型，
     决定之后使用Class-based distance还是MAD-based distance
 - 阈值T：当某一个输入对应输出的distance超过T时，认为此输入会造成两个模型的不一致性  

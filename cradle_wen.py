@@ -27,10 +27,11 @@ def detect(model_o, model_c, input_list, label_list, distance_threshold, percent
             in_single_count += 1
         distance_list.append(distance)
 
+    print(in_single_count / len(input_list))
     if in_single_count / len(input_list) >= percent:
-        return True, distance_list
+        return True, distance_list, in_single_count
     else:
-        return False, distance_list
+        return False, distance_list, in_single_count
 
 
 # 计算两个单个输出值的distance
@@ -47,7 +48,8 @@ def distance_calculate(output_o, output_c, label, model_type, k):
 def localize(model_o, model_c, input_list, distance_list):
     distance_list = np.asarray(distance_list)
     largest_index = np.argmax(distance_list)
-    single_input = [input_list[largest_index]]
+    single_input = input_list[largest_index:largest_index+1]
+    single_input.reshape(-1, 28, 28, 1)
     layers_output_o = nnutil.layers_output(model_o, single_input)
     layers_output_c = nnutil.layers_output(model_c, single_input)
     layers = nnutil.extract_model_layer(model_o)
@@ -59,19 +61,20 @@ def localize(model_o, model_c, input_list, distance_list):
         layer_distance = nnutil.mean_absolute_deviation(layers_output_o[i][0], layers_output_c[i][0])
         layer_distance_list.append(layer_distance)
         rate_of_change_list.append(nnutil.rate_of_change(layer_distance, pre_max_distance))
-        pre_max_distance = np.max(pre_max_distance, layer_distance)
+        pre_max_distance = np.max([pre_max_distance, layer_distance])
 
     # 计算rate_of_change_list的三分位数，大于此数的layer需要高亮
     rate_of_change_list = np.asarray(rate_of_change_list)
     in_layers = []
-    for i in range(len(rate_of_change_list) / 3):
+    for i in range(int(len(rate_of_change_list) / 3)):
         index = np.argmax(rate_of_change_list)
         print(layers[index])
         in_layers.append({
-            "layer": layers[index],
+            "layer": layers[index+1],
             "distance": layer_distance_list[index],
             "rate_of_change": rate_of_change_list[i]
         })
+        rate_of_change_list[index] = np.min(rate_of_change_list)
     return in_layers
 
 
@@ -83,8 +86,8 @@ def pre_process():
 if __name__ == "__main__":
     # 前置参数
     m_type = "Classification"
-    dis_threshold = 0
-    p = 0.1
+    dis_threshold = 8
+    p = 0.01
 
     # 训练模型用
     # nnutil.train_lenet()
@@ -98,10 +101,12 @@ if __name__ == "__main__":
     (x_train, y_train), (x_test, y_test) = mnist.load_data()
     x_test = x_test.reshape(-1, 28, 28, 1)
 
-    (inconsistency, dis_list) = detect(mo, mc, x_test, y_test, dis_threshold, p, m_type)
+    (inconsistency, dis_list, inconsistency_count) = detect(mo, mc, x_test, y_test, dis_threshold, p, m_type)
     if inconsistency:
         print("认为结果不符合预期")
+        print(inconsistency_count, "/", len(x_test))
         localize(mo, mc, x_test, dis_list)
     else:
         print("认为结果符合预期")
+        print(inconsistency_count, "/", len(x_test))
 

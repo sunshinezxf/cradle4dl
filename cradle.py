@@ -5,6 +5,8 @@ import os
 from tensorflow.keras.models import load_model
 from tensorflow.keras.datasets import mnist
 
+import keras
+
 import numpy as np
 
 from utils import nnutil
@@ -55,13 +57,16 @@ def pre_process():
 
 if __name__ == "__main__":
     # 训练模型用
-    # nnutil.train_lenet()
-    model_dir = basedir + "/network/models/lenet/"
-    model_path = [model_dir + "lenet_mnist_1.h5", model_dir + "lenet_mnist_2.h5"]
-    print("load model")
-    mo = load_model(model_path[0])
-    mc = load_model(model_path[1])
-    (x_train, y_train), (x_test, y_test) = mnist.load_data()
-    x_test = x_test.reshape(-1, 28, 28, 1)
-    detect(model_o=mo, model_c=mc, input_list=x_test)
+    nnutil.train_lenet()
+    # model_dir = basedir + "/network/models/lenet/"
+    # model_path = [model_dir + "lenet_mnist_1.h5", model_dir + "lenet_mnist_2.h5"]
+    # print("load model")
+    # mo = load_model(model_path[0])
+    # mc = load_model(model_path[1])
+    # (x_train, y_train), (x_test, y_test) = mnist.load_data()
+    # x_test = x_test.reshape(-1, 28, 28, 1)
+    # y_test = keras.utils.to_categorical(y_test, 10)
+    # print(mo.evaluate(x_test, y_test))
+    # print(mc.evaluate(x_test, y_test))
+    # detect(model_o=mo, model_c=mc, input_list=x_test)
 

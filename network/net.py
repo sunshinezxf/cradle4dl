@@ -3,8 +3,8 @@
 import os
 import tensorflow as tf
 from tensorflow import keras
-from tensorflow.keras import layers
 from tensorflow.keras.models import load_model
+
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
