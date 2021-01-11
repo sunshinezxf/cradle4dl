@@ -13,6 +13,20 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 
 def detect(model_o, model_c, input_list, label_list, distance_threshold, percent, model_type="Regression", k=5):
+    """
+    :param model_o: 第一个模型
+    :param model_c: 第二个模型
+    :param input_list: 输入列表
+    :param label_list: 标签列表
+    :param distance_threshold: 距离阈值，超过此阈值表示某两个结果“不一致”
+    :param percent: 百分比阈值，当输入列表中导致了“不一致”的输入个数超过此百分比时，表示两个对比模型在此距离阈值下的“不一致”
+    :param model_type: Classification或者Regression，字符串，表示模型的类型
+    :param k: 当model_type为Classification时，用于top_k计算
+    :return: (boolean, distance_list, in_single_count)
+            boolean: 表示是否判定两个对比模型在此阈值下不一致
+            distance_list: 对于input_list的每个输入在两个对比模型上的结果，计算distance获得的结果距离列表
+            in_single_count: input_list造成“不一致“的输入个数
+    """
     input_list = input_list.reshape(-1, 28, 28, 1)
     try:
         output_list_o = model_o.predict(input_list)
@@ -86,11 +100,14 @@ def pre_process():
 if __name__ == "__main__":
     # 前置参数
     m_type = "Classification"
-    dis_threshold = 8
+    dis_threshold = 1
     p = 0.01
+    k = 1
 
     # 训练模型用
     # nnutil.train_lenet()
+
+    # 加载模型
     model_dir = basedir + "/network/models/lenet/"
     model_path = [model_dir + "lenet_mnist_1.h5", model_dir + "lenet_mnist_2.h5"]
     print("load model")
@@ -101,7 +118,9 @@ if __name__ == "__main__":
     (x_train, y_train), (x_test, y_test) = mnist.load_data()
     x_test = x_test.reshape(-1, 28, 28, 1)
 
-    (inconsistency, dis_list, inconsistency_count) = detect(mo, mc, x_test, y_test, dis_threshold, p, m_type)
+    # detect
+    (inconsistency, dis_list, inconsistency_count) = detect(mo, mc, x_test, y_test, dis_threshold, p, m_type, k)
+    # localize
     if inconsistency:
         print("认为结果不符合预期")
         print(inconsistency_count, "/", len(x_test))
