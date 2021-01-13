@@ -3,6 +3,7 @@ import os
 from tensorflow.keras.datasets import fashion_mnist
 from tensorflow.keras.layers import Dense, Conv2D, Flatten, MaxPooling2D, Dropout
 from tensorflow.keras.models import Sequential
+from tensorflow.keras.models import load_model
 import tensorflow as tf
 
 import time
@@ -40,15 +41,15 @@ def train(input_shape, train_x, train_y, save=False, save_time = False):
 
     model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['acc'])
     start_time = time.asctime(time.localtime(time.time()))
-    model.fit(x=train_x.reshape(input_shape), y=train_y, batch_size=128, epochs=100)
+    model.fit(x=train_x.reshape(input_shape), y=train_y, batch_size=256, epochs=20)
     end_time = time.asctime(time.localtime(time.time()))
     if save_time:
-        f = open(os.path.join(basedir, 'network', 'models', 'test', 'tf', 'train_time.txt'), 'w')
+        f = open(os.path.join(basedir, 'network', 'models', 'test', 'train_time_tf.txt'), 'w')
         f.write('start_time: ' + start_time + '\n')
         f.write('end_time' + end_time + '\n')
         f.close()
     if save:
-        model.save(os.path.join(basedir, 'network', 'models', 'test', 'tf', 'fashion_mnist_1.h5'))
+        model.save(os.path.join(basedir, 'network', 'models', 'test', 'fashion_mnist_tf.h5'))
 
     return model
 
@@ -64,6 +65,9 @@ def test2():
     print("Num GPUs Available: ", len(tf.config.experimental.list_physical_devices('GPU')))
 
 
+def test3():
+    model = load_model(basedir + "/network/models/test/tf/" + "fashion_mnist_1.h5")
+
+
 if __name__ == "__main__":
-    # test2()
     test1()
