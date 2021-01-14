@@ -82,7 +82,7 @@ def localize(model_o, model_c, input_list, distance_list):
     in_layers = []
     for i in range(int(len(rate_of_change_list) / 3)):
         index = np.argmax(rate_of_change_list)
-        print(layers[index])
+        # print(layers[index])
         in_layers.append({
             "layer": layers[index+1],
             "distance": layer_distance_list[index],
@@ -124,7 +124,9 @@ if __name__ == "__main__":
     if inconsistency:
         print("认为结果不符合预期")
         print(inconsistency_count, "/", len(x_test))
-        localize(mo, mc, x_test, dis_list)
+        in_layers = localize(mo, mc, x_test, dis_list)
+        for in_layer in in_layers:
+            print(in_layers)
     else:
         print("认为结果符合预期")
         print(inconsistency_count, "/", len(x_test))

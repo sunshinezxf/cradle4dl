@@ -97,5 +97,18 @@ def layers_output(model, first_layer_input):
     return output_list
 
 
+def layers_output_new(model, first_layer_input):
+    output_list = []
+    target_func = backend.function([model.layers[1].input, model.layers[1].output])
+    # output_list.append(target_func(first_layer_input))
+    # for i in range(1, len(model.layers)):
+    #     target_func = backend.function([model.layers[i].input, model.layers[i].output])
+    #     print("layer input: ", output_list[i-1].shape)
+    #     output_list.append(target_func(output_list[i-1]))
+    #     print("layer output: ", output_list[-1].shape)
+
+    return output_list
+
+
 def rate_of_change(current_distance, pre):
     return (current_distance - pre) / (pre + math.pow(10, -7))

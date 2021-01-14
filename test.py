@@ -5,6 +5,7 @@ from tensorflow.keras.layers import Dense, Conv2D, Flatten, MaxPooling2D, Dropou
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.models import load_model
 import tensorflow as tf
+from utils import nnutil
 
 import time
 
@@ -46,7 +47,7 @@ def train(input_shape, train_x, train_y, save=False, save_time = False):
     if save_time:
         f = open(os.path.join(basedir, 'network', 'models', 'test', 'train_time_tf.txt'), 'w')
         f.write('start_time: ' + start_time + '\n')
-        f.write('end_time' + end_time + '\n')
+        f.write('end_time: ' + end_time + '\n')
         f.close()
     if save:
         model.save(os.path.join(basedir, 'network', 'models', 'test', 'fashion_mnist_tf.h5'))
@@ -67,7 +68,14 @@ def test2():
 
 def test3():
     model = load_model(basedir + "/network/models/test/tf/" + "fashion_mnist_1.h5")
+    (x_train, y_train), (x_test, y_test) = fashion_mnist.load_data()
+    x_test = x_test.reshape(-1, 28, 28, 1)
+    # outputs = model.predict(x_test)
+    layers_output1 = nnutil.layers_output(model, x_test)
+    print(layers_output1.shape)
+    # layers_output2 = nnutil.layers_output_new(model, x_test)
 
 
 if __name__ == "__main__":
-    test1()
+    a = {"nihao": "111"}
+    print(type(str(a)))
