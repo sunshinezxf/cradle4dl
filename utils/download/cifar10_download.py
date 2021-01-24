@@ -1,5 +1,4 @@
-
-from keras.datasets import cifar10
+from tensorflow.keras.datasets import cifar10
 
 
 def download_cifar10():

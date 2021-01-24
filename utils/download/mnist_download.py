@@ -1,4 +1,4 @@
-from keras.datasets import mnist
+from tensorflow.keras.datasets import mnist
 
 
 def mnist_download():
