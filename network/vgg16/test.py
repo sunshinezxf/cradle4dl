@@ -1,5 +1,5 @@
 
-from keras.datasets import cifar10
+from tensorflow.keras.datasets import cifar10
 
 
 if __name__ == "__main__":
