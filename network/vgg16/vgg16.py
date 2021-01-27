@@ -9,7 +9,6 @@ from keras.optimizers import SGD
 import keras
 
 
-os.environ['KERAS_BACKEND'] = 'theano'
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 
@@ -66,13 +65,15 @@ def load_data():
 
 def train_model():
     model = get_model_from_self()
-    model.save(os.path.join(basedir.split('vgg16')[0], 'models', 'vgg16', 'vgg16_cifar10_tf.h5'))
+    model_file_name = 'vgg16_cifar10_' + keras.backend.backend() + '.h5'
+    model_path_name = os.path.join(basedir.split('vgg16')[0], 'models', 'vgg16', model_file_name)
+    model.save(model_path_name)
     (x_train, y_train), (x_test, y_test) = load_data()
     print('backend: ' + keras.backend.backend())
     print('start_time: ' + time.asctime(time.localtime(time.time())))
     model.fit(x_train, y_train, batch_size=32, epochs=100, validation_split=0.1, verbose=1)
     print('end_time: ' + time.asctime(time.localtime(time.time())))
-    model.save(os.path.join(basedir.split('vgg16')[0], 'models', 'vgg16', 'vgg16_cifar10_tf.h5'))
+    model.save(model_path_name)
     print(model.evaluate())
     print('\n\n\n')
 
