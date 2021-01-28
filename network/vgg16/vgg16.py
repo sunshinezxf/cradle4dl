@@ -58,8 +58,8 @@ def load_data():
     (x_train, y_train), (x_test, y_test) = cifar10.load_data()
     x_train = x_train.reshape(-1, 32, 32, 3)
     x_test = x_test.reshape(-1, 32, 32, 3)
-    y_train = to_categorical(y_train, 10)
-    y_test = to_categorical(y_test, 10)
+    # y_train = to_categorical(y_train, 10)
+    # y_test = to_categorical(y_test, 10)
     return (x_train, y_train), (x_test, y_test)
 
 
