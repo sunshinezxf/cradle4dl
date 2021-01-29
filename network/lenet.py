@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 
 import tensorflow as tf
-from tensorflow.keras import optimizers
-from tensorflow.keras.layers import Dense, Conv2D, Flatten, MaxPooling2D
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.regularizers import l2
+from keras import optimizers
+from keras.layers import Dense, Conv2D, Flatten, MaxPooling2D
+from keras.models import Sequential
+from keras.regularizers import l2
 
 from network.net import Net
 

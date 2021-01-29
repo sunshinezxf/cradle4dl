@@ -5,7 +5,7 @@ from keras.datasets import mnist
 import cradle
 
 
-basedir = os.path.abspath(os.path.dirname(__file__))
+basedir = os.path.abspath(os.path.dirname(__file__)).split('test')[0]
 
 
 def test4():

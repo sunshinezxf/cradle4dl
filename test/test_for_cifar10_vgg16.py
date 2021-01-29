@@ -5,15 +5,15 @@ from keras.datasets import cifar10
 import cradle
 
 
-basedir = os.path.abspath(os.path.dirname(__file__))
+basedir = os.path.abspath(os.path.dirname(__file__)).split('test')[0]
 
 
 def test4():
     # 前置参数
     m_type = "Classification"
-    dis_threshold = 1
+    dis_threshold = 16
     p = 0.01
-    k = 1
+    k = 5
 
     # 训练模型用
     # nnutil.train_lenet()
@@ -27,7 +27,7 @@ def test4():
 
     # 数据获取
     (x_train, y_train), (x_test, y_test) = cifar10.load_data()
-    x_test = x_test.reshape(-1, 28, 28, 1)
+    # x_test = x_test.reshape(-1, 32, 32, 1)
 
     # detect
     (inconsistency, dis_list, inconsistency_count) = cradle.detect(mo, mc, x_test, y_test, dis_threshold, p, m_type, k)
@@ -45,3 +45,4 @@ def test4():
 
 if __name__ == '__main__':
     test4()
+    # print(basedir)

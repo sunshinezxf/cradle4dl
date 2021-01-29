@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 import math
 
-from tensorflow.keras.datasets import mnist
-from tensorflow.keras import backend
+from keras.datasets import mnist
+from keras import backend
 
 from network.lenet import LeNet
 

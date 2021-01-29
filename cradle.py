@@ -2,9 +2,6 @@
 
 import os
 
-from tensorflow.keras.models import load_model
-from tensorflow.keras.datasets import mnist
-
 import numpy as np
 
 from utils import nnutil
@@ -28,7 +25,6 @@ def detect(model_o, model_c, input_list, label_list, distance_threshold, percent
             distance_list: 对于input_list的每个输入在两个对比模型上的结果，计算distance获得的结果距离列表
             in_single_count: input_list造成“不一致“的输入个数
     """
-    input_list = input_list.reshape(-1, 28, 28, 1)
     try:
         output_list_o = model_o.predict(input_list)
         output_list_c = model_c.predict(input_list)
@@ -64,7 +60,6 @@ def localize(model_o, model_c, input_list, distance_list):
     distance_list = np.asarray(distance_list)
     largest_index = np.argmax(distance_list)
     single_input = input_list[largest_index:largest_index+1]
-    single_input.reshape(-1, 28, 28, 1)
     layers_output_o = nnutil.layers_output(model_o, single_input)
     layers_output_c = nnutil.layers_output(model_c, single_input)
     layers = nnutil.extract_model_layer(model_o)
