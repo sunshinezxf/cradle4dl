@@ -41,3 +41,7 @@ def test4():
     else:
         print("认为结果符合预期")
         print(inconsistency_count, "/", len(x_test))
+
+
+if __name__ == '__main__':
+    test4()
