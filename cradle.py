@@ -84,9 +84,9 @@ def localize(model_o, model_c, input_list, distance_list):
         index = np.argmax(rate_of_change_list)
         # print(layers[index])
         in_layers.append({
-            "layer": layers[index+1],
             "distance": layer_distance_list[index],
-            "rate_of_change": rate_of_change_list[i]
+            "rate_of_change": rate_of_change_list[i],
+            "layer": layers[index]
         })
         rate_of_change_list[index] = np.min(rate_of_change_list)
     return in_layers
@@ -127,7 +127,7 @@ if __name__ == '__main__':
         print(inconsistency_count, "/", len(x_test))
         in_layers = localize(mo, mc, x_test, dis_list)
         for in_layer in in_layers:
-            print(in_layers)
+            print(in_layer)
         print('end time: ' + time.asctime(time.localtime(time.time())))
     else:
         print("low rate of inconsistency")

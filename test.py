@@ -50,10 +50,14 @@ def test4():
 
 def test5():
     model = load_model(basedir + "/network/models/vgg16/" + "vgg16_cifar10_tensorflow.h5")
+    for layer in model.layers:
+        print(layer)
     layers = nnutil.extract_model_layer(model)
     for layer in layers:
         print(layer)
-    print(layers)
+    print(len(model.layers))
+    print(len(layers))
+    # print(layers)
     # layers_output2 = nnutil.layers_output_new(model, x_test)
 
 
