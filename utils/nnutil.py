@@ -82,7 +82,10 @@ def mad_based_distance(o_1, o_2, oracle):
 # 返回一个字典list，每个字典中存储一个layer的数据
 def extract_model_layer(model):
     layers_json = json.loads(model.to_json())
-    return layers_json['config']['layers']
+    if type(layers_json['config']).__name__ == 'list':
+        return layers_json['config']
+    else:
+        return layers_json['config']['layers']
 
 
 # 计算model每一层的输出，并返回list

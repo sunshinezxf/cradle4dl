@@ -8,6 +8,8 @@ from keras.datasets import cifar10
 
 from utils import nnutil
 
+import time
+
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
@@ -117,6 +119,7 @@ if __name__ == '__main__':
     # x_test = x_test.reshape(-1, 32, 32, 1)
 
     # detect
+    print('start time: ' + time.asctime(time.localtime(time.time())))
     (inconsistency, dis_list, inconsistency_count) = detect(mo, mc, x_test, y_test, dis_threshold, p, m_type, k)
     # localize
     if inconsistency:
@@ -125,6 +128,8 @@ if __name__ == '__main__':
         in_layers = localize(mo, mc, x_test, dis_list)
         for in_layer in in_layers:
             print(in_layers)
+        print('end time: ' + time.asctime(time.localtime(time.time())))
     else:
         print("认为结果符合预期")
         print(inconsistency_count, "/", len(x_test))
+        print('end time: ' + time.asctime(time.localtime(time.time())))
