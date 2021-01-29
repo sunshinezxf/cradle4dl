@@ -123,13 +123,13 @@ if __name__ == '__main__':
     (inconsistency, dis_list, inconsistency_count) = detect(mo, mc, x_test, y_test, dis_threshold, p, m_type, k)
     # localize
     if inconsistency:
-        print("认为结果不符合预期")
+        print("high rate of inconsistency")
         print(inconsistency_count, "/", len(x_test))
         in_layers = localize(mo, mc, x_test, dis_list)
         for in_layer in in_layers:
             print(in_layers)
         print('end time: ' + time.asctime(time.localtime(time.time())))
     else:
-        print("认为结果符合预期")
+        print("low rate of inconsistency")
         print(inconsistency_count, "/", len(x_test))
         print('end time: ' + time.asctime(time.localtime(time.time())))
