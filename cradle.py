@@ -101,7 +101,7 @@ if __name__ == '__main__':
     # 前置参数
     m_type = "Classification"
     dis_threshold = 16
-    p = 0.01
+    p = 0.001
     k = 5
 
     # 训练模型用
