@@ -89,9 +89,9 @@ def extract_model_layer(model):
 def layers_output(model, first_layer_input):
     output_list = []
     for layer in model.layers:
-        target_func = backend.function(model.layers[0].input, layer.output)
+        target_func = backend.function([model.layers[0].input], [layer.output])
         # print("layer input: ", first_layer_input.shape)
-        output_list.append(target_func(first_layer_input))
+        output_list.append(target_func([first_layer_input]))
         # print("layer output: ", output_list[-1].shape)
 
     return output_list

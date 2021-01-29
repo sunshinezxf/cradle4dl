@@ -1,7 +1,7 @@
 
 import os
-from tensorflow.keras.layers import Dense, Conv2D, Flatten, MaxPooling2D, Dropout
-from tensorflow.keras.models import Sequential
+from keras.layers import Dense, Conv2D, Flatten, MaxPooling2D, Dropout
+from keras.models import Sequential
 
 import time
 

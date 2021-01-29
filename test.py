@@ -1,7 +1,8 @@
 
 import os
-from tensorflow.keras.datasets import fashion_mnist
-from tensorflow.keras.models import load_model
+from keras.datasets import fashion_mnist
+from keras.datasets import cifar10
+from keras.models import load_model
 import tensorflow as tf
 from utils import nnutil
 
@@ -36,5 +37,16 @@ def test3():
     # layers_output2 = nnutil.layers_output_new(model, x_test)
 
 
+def test4():
+    model = load_model(basedir + "/network/models/vgg16/" + "vgg16_cifar10_tensorflow.h5")
+    (x_train, y_train), (x_test, y_test) = cifar10.load_data()
+    x_test = x_test.reshape(-1, 32, 32, 3)
+    # outputs = model.predict(x_test)
+    # print(outputs)
+    layers_output1 = nnutil.layers_output(model, x_test[0:1])
+    print(layers_output1.shape)
+    # layers_output2 = nnutil.layers_output_new(model, x_test)
+
+
 if __name__ == "__main__":
-    test3()
+    test4()
