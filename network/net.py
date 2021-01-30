@@ -46,6 +46,7 @@ class Net(object):
         print("train label shape: {}".format(y_train.shape))
         model = self.build_model()
         model.summary()
+        model.save(os.path.join(basedir, 'models', self.name, self.file_name))
         model.fit(x_train, y_train, batch_size=self.batch_size, epochs=self.epochs, verbose=1, shuffle=True)
         model.save(os.path.join(basedir, 'models', self.name, self.file_name))
         self._model = model

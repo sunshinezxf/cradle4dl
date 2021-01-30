@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 
-import tensorflow as tf
 from keras import optimizers
 from keras.layers import Dense, Conv2D, Flatten, MaxPooling2D
 from keras.models import Sequential
 from keras.regularizers import l2
+from keras.datasets import mnist
+from keras import backend
 
 from network.net import Net
 
@@ -37,3 +38,16 @@ class LeNet(Net):
         model.compile(loss='categorical_crossentropy', optimizer=sgd, metrics=['accuracy'])
         model.summary()
         return model
+
+
+def train_lenet():
+    (x_train, y_train), (x_test, y_test) = mnist.load_data()
+    x_train = x_train.reshape(-1, 28, 28, 1)
+    x_test = x_test.reshape(-1, 28, 28, 1)
+    print(x_train[0] / 255)
+    lenet = LeNet(model_filename='lenet_mnist_'+backend.backend()+'.h5', epochs=10, input_shape=(28, 28, 1), weight_decay=1e-3)
+    lenet.train(x_train / 255, y_train)
+
+
+if __name__ == '__main__':
+    train_lenet()
