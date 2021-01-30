@@ -106,15 +106,15 @@ if __name__ == '__main__':
     k = 5
 
     # 加载模型
-    model_dir = basedir + "/network/models/lenet/"
-    model_path = [model_dir + "lenet_mnist_tensorflow.h5", model_dir + "lenet_mnist_theano.h5"]
+    model_dir = basedir + "/network/models/vgg16/"
+    model_path = [model_dir + "vgg16_cifar10_tensorflow.h5", model_dir + "vgg16_cifar10_theano.h5"]
     print("load model")
     mo = load_model(model_path[0])
     mc = load_model(model_path[1])
 
     # 数据获取
-    (x_train, y_train), (x_test, y_test) = mnist.load_data()
-    x_test = x_test.reshape(-1, 28, 28, 1)
+    (x_train, y_train), (x_test, y_test) = cifar10.load_data()
+    # x_test = x_test.reshape(-1, 32, 32, 1)
 
     # detect
     print('start time: ' + time.asctime(time.localtime(time.time())))
