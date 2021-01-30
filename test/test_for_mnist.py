@@ -20,7 +20,7 @@ def test4():
 
     # 加载模型
     model_dir = basedir + "/network/models/lenet/"
-    model_path = [model_dir + "lenet_mnist_1.h5", model_dir + "lenet_mnist_2.h5"]
+    model_path = [model_dir + "lenet_mnist_tensorflow.h5", model_dir + "lenet_mnist_theano.h5"]
     print("load model")
     mo = load_model(model_path[0])
     mc = load_model(model_path[1])
