@@ -1,4 +1,4 @@
-from tensorflow.keras.applications import xception
+from keras.applications import xception
 
 
 def xception_download():

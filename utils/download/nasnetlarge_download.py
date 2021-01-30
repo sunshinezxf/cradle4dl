@@ -1,4 +1,4 @@
-from tensorflow.keras.applications import nasnet
+from keras.applications import nasnet
 
 
 def nasnet_download():

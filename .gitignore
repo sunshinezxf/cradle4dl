@@ -1,6 +1,12 @@
+
 .*
+
 **pycache**
+
 *.hdf5
+
 **h5
+
+*.pyc
 
 network/models

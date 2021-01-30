@@ -61,5 +61,11 @@ def test5():
     # layers_output2 = nnutil.layers_output_new(model, x_test)
 
 
+def test6():
+    (x_train, y_train), (x_test, y_test) = cifar10.load_data()
+    x_train = tf.image.resize_images(x_train, [64, 64], 0)
+    print(x_train.shape)
+
+
 if __name__ == "__main__":
-    test5()
+    test6()
