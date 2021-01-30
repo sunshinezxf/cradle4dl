@@ -9,6 +9,8 @@ from keras import backend
 
 from network.net import Net
 
+import time
+
 
 class LeNet(Net):
 
@@ -45,8 +47,10 @@ def train_lenet():
     x_train = x_train.reshape(-1, 28, 28, 1)
     x_test = x_test.reshape(-1, 28, 28, 1)
     print(x_train[0] / 255)
+    print('start time: ' + time.asctime(time.localtime(time.time())))
     lenet = LeNet(model_filename='lenet_mnist_'+backend.backend()+'.h5', epochs=10, input_shape=(28, 28, 1), weight_decay=1e-3)
     lenet.train(x_train / 255, y_train)
+    print('end time: ' + time.asctime(time.localtime(time.time())))
 
 
 if __name__ == '__main__':
