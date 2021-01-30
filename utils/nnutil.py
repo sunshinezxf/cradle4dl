@@ -1,10 +1,7 @@
 # -*- coding: utf-8 -*-
 import math
 
-from keras.datasets import mnist
 from keras import backend
-
-from network.lenet import LeNet
 
 import numpy as np
 
