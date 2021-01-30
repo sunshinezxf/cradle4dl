@@ -47,7 +47,8 @@ class Net(object):
         model = self.build_model()
         model.summary()
         model.save(os.path.join(basedir, 'models', self.name, self.file_name))
-        model.fit(x_train, y_train, batch_size=self.batch_size, epochs=self.epochs, verbose=1, shuffle=True)
+        model.fit(x_train, y_train, batch_size=self.batch_size, epochs=self.epochs, verbose=1, shuffle=True
+                  , validation_split=0.1)
         model.save(os.path.join(basedir, 'models', self.name, self.file_name))
         self._model = model
 
