@@ -7,7 +7,7 @@ from keras.regularizers import l2
 from keras.datasets import mnist
 from keras import backend
 
-from network.net import Net
+from net import Net
 
 import time
 
